@@ -1,0 +1,237 @@
+:root {
+  color-scheme: light dark;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header,
+footer {
+  background: linear-gradient(135deg, #312e81, #1d4ed8);
+  padding: 1.5rem;
+  text-align: center;
+  color: #f8fafc;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+header p,
+footer p {
+  margin: 0.5rem auto 0;
+  max-width: 48rem;
+}
+
+main {
+  flex: 1;
+  width: min(1100px, 95vw);
+  margin: 2rem auto;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.loader label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.controls input[type='text'] {
+  flex: 1;
+  min-width: 16rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid #334155;
+  background: rgba(15, 23, 42, 0.6);
+  color: inherit;
+}
+
+.controls button {
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 0.75rem;
+  background: #38bdf8;
+  color: #0f172a;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.controls button:hover,
+.controls button:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.35);
+}
+
+.hint {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.frame-wrapper {
+  border-radius: 1rem;
+  overflow: hidden;
+  background: rgba(148, 163, 184, 0.1);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  min-height: 420px;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  border: none;
+  background: #fff;
+}
+
+.source-panel {
+  border-radius: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.85);
+  display: flex;
+  flex-direction: column;
+  max-height: 400px;
+}
+
+.source-panel.has-error {
+  border-color: rgba(248, 113, 113, 0.5);
+}
+
+.source-panel.has-error #source-output {
+  color: #fca5a5;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: rgba(30, 41, 59, 0.85);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.panel-header button {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+#source-output {
+  margin: 0;
+  padding: 1rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: 'Fira Code', 'Source Code Pro', monospace;
+  flex: 1;
+}
+
+.console-panel {
+  border-radius: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.85);
+  padding: 1.25rem;
+}
+
+.console-panel h2 {
+  margin-top: 0;
+}
+
+.console-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+#console-input {
+  resize: vertical;
+  min-height: 120px;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.6);
+  color: inherit;
+  font-family: inherit;
+}
+
+#run-console-btn {
+  align-self: flex-start;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: #22c55e;
+  color: #052e16;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#run-console-btn:hover,
+#run-console-btn:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(34, 197, 94, 0.35);
+}
+
+.console-output {
+  margin-top: 1.5rem;
+  max-height: 240px;
+  overflow: auto;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  padding: 1rem;
+  font-family: 'Fira Code', 'Source Code Pro', monospace;
+}
+
+.console-line {
+  margin: 0 0 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.console-line strong {
+  color: #38bdf8;
+}
+
+.console-line.error strong {
+  color: #f87171;
+}
+
+@media (max-width: 720px) {
+  main {
+    margin: 1rem auto;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controls button,
+  #run-console-btn {
+    width: 100%;
+  }
+}

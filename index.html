@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Developer Console Wrapper</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Developer Console Wrapper</h1>
+      <p>
+        Load a web page inside this wrapper, view its source, and run JavaScript
+        commands in a built-in console.
+      </p>
+    </header>
+
+    <main>
+      <section class="loader">
+        <label for="url-input">URL to visit</label>
+        <div class="controls">
+          <input
+            id="url-input"
+            type="text"
+            placeholder="https://example.com"
+            autocomplete="url"
+          />
+          <button id="load-btn">Load Page</button>
+          <button id="view-source-btn" aria-expanded="false">View Source</button>
+        </div>
+        <p class="hint">
+          Tip: the app can only show or interact with pages that allow embedding
+          and cross-origin access.
+        </p>
+      </section>
+
+      <section class="frame-wrapper">
+        <iframe
+          id="page-frame"
+          title="Visited page"
+          loading="lazy"
+          referrerpolicy="no-referrer"
+        ></iframe>
+      </section>
+
+      <section id="source-panel" class="source-panel" hidden>
+        <header class="panel-header">
+          <h2>Fetched Source</h2>
+          <button id="close-source-btn" title="Hide source view">×</button>
+        </header>
+        <pre id="source-output" aria-live="polite"></pre>
+      </section>
+
+      <section class="console-panel">
+        <h2>Developer Console</h2>
+        <p class="hint">
+          Commands run in the context of the iframe when the page allows it.
+        </p>
+        <div class="console-input">
+          <textarea
+            id="console-input"
+            rows="3"
+            placeholder="Type JavaScript here..."
+          ></textarea>
+          <button id="run-console-btn">Run</button>
+        </div>
+        <div class="console-output" id="console-output" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Built for static hosting platforms such as Render Static Sites and GitHub
+        Pages. Be mindful of cross-origin restrictions when loading third-party
+        sites.
+      </p>
+    </footer>
+
+    <script src="main.js"></script>
+  </body>
+</html>
