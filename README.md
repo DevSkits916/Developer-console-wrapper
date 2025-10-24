@@ -1,43 +1,76 @@
-# Developer Console Wrapper
+# Review Monitoring & Management Stack
 
-A single-page web app that simulates a lightweight browser. Enter a URL to load the
-page in an iframe, inspect the fetched source, and run JavaScript commands in a
-console—perfect for static hosting platforms like GitHub Pages or Render Static Sites.
+This repository provides a proof-of-concept stack for monitoring public reviews,
+normalizing them into a shared schema, running lightweight analysis hooks, and
+testing response workflows via a safe simulation endpoint. The backend is built
+with FastAPI and SQLite (swap to Postgres for production). A frontend scaffold
+folder is included for building a dashboard in React or any SPA framework.
 
 ## Features
 
-- **URL Wrapper** – Load any embeddable page inside an iframe with minimal controls.
-- **View Source** – Fetch the requested URL and display its HTML (subject to CORS).
-- **Developer Console** – Execute JavaScript against the iframe's `window` context
-  when same-origin rules allow it.
-- **Keyboard Shortcut** – Use <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Enter</kbd> to run
-  console commands quickly.
+- **Collectors** – Use official APIs when available. Read-only connectors for
+  Yelp and Trustpilot demonstrate how to fetch public review data while
+  respecting robots.txt and rate limits. The Google connector is a stub awaiting
+  Business Profile API credentials.
+- **Normalization** – Reviews are mapped into a canonical schema so all
+  platforms appear the same downstream.
+- **Storage** – SQLAlchemy models default to SQLite. Bring your own database by
+  overriding `DATABASE_URL`.
+- **Analysis Hooks** – The structure is ready for LLM or rules-based tagging and
+  sentiment analysis. Extend the model and tasks to queue additional work.
+- **Response Simulation** – `/simulate/post` lets you exercise the response flow
+  without touching real review sites.
+- **Scheduler** – APScheduler powers background polling tasks. The provided job
+  periodically fetches demo Yelp data.
 
-## Usage
+## Project Structure
 
-1. Deploy the contents of this repository to a static host (GitHub Pages, Render Static
-   Sites, Netlify, etc.).
-2. Visit the deployed URL and enter the address you want to inspect.
-3. Click **Load Page** to navigate the iframe.
-4. Use **View Source** to fetch the HTML markup. Some sites may block the request via
-   CORS; when that happens the app explains the issue.
-5. Type JavaScript into the developer console and press **Run** (or the keyboard
-   shortcut). The output log records results and errors.
-
-## Limitations
-
-- Many modern sites prevent embedding or cross-origin access. For those, the iframe may
-  remain blank, source requests can fail, and console commands will be blocked by the
-  browser for security reasons.
-- The console executes code via `eval` inside the iframe. Only use it on pages you
-  trust.
-
-## Local Preview
-
-Open `index.html` directly in your browser or use a static server:
-
-```bash
-python -m http.server 4173
+```
+backend/
+  app/
+    connectors/
+    db.py
+    main.py
+    models.py
+    schemas.py
+    simulate.py
+    tasks.py
+    utils.py
+  requirements.txt
+frontend/
+  README.md (create your dashboard here)
+docker-compose.yml
+.env.example
 ```
 
-Then visit <http://localhost:4173/>.
+## Getting Started
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r backend/requirements.txt
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 --app-dir backend
+```
+
+Then browse to <http://localhost:8000/docs> to interact with the API.
+
+## Docker
+
+```bash
+docker-compose up --build
+```
+
+## Environment Variables
+
+Copy `.env.example` to `.env` and adjust values:
+
+- `DATABASE_URL` – SQLAlchemy connection string.
+- `GOOGLE_API_KEY` – Credentials for the Google Business Profile API (if used).
+- `RATE_LIMIT_REQUESTS_PER_MIN` – Optional knob for custom rate limiting logic.
+
+## Frontend Scaffold
+
+The `frontend/` directory is intentionally empty aside from this placeholder.
+Use Vite, Create React App, or your preferred tooling to build a dashboard that
+consumes the backend endpoints. Wire up `/simulate/post` for safe posting tests
+before integrating any official response APIs.

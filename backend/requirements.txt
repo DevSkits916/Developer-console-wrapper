@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+httpx
+beautifulsoup4
+sqlalchemy
+alembic
+pydantic
+apscheduler
+python-dotenv
+requests
+tqdm
